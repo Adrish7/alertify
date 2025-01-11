@@ -5,7 +5,7 @@ import {Tasks} from "../Tasks";
 
 function Content() {
   return (
-    <section>
+    <section className="content">
       <Sidebar />
       <Tasks />
     </section>

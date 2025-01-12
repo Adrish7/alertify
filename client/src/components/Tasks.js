@@ -4,6 +4,7 @@ import { useTasks } from "../hooks";
 import { collatedTasks } from "../constants";
 import { getTitle, getCollatedTitle, collatedTasksExist } from "../helpers";
 import { useSelectedProjectValue, useProjectsValue } from "../context";
+import { AddTask } from "./AddTask";
 
 export const Tasks = () => {
   const { selectedProject } = useSelectedProjectValue();
@@ -12,9 +13,9 @@ export const Tasks = () => {
   let projectName = "";
 
   // do not take inbox, today or next 7 days as a task for the project that we are working in, we only want the task in that project
-  if (projects && selectedProject && !collatedTasksExist(selectedProject)) {
+  if (projects.length > 0 && projects && selectedProject && !collatedTasksExist(selectedProject)) {
     projectName = getTitle(projects, selectedProject).name;
-    console.log("projectName 1: ", projectName);
+
   }
   
   // if we are using the three collated tasks 
@@ -36,6 +37,7 @@ export const Tasks = () => {
           </li>
         ))}
       </ul>
+        <AddTask />
     </div>
   );
 }

@@ -44,10 +44,30 @@ export const AddProject = ({shouldShow = false}) => {
         <div className="add-project__input">
           <input value={projectName} onChange={e => setProjectName(e.target.value)} className="add-project__name" data-testid="project-name" type="text" placeholder="Name your project"/>
           <button className="add-project__submit" type="button" onClick={() => addProject()} data-testid="add-project-submit">Add Project</button>
-          <span className="add-project__cancel" data-testid="hide-project-overlay" onClick={() => setShow(false)}>Cancel</span>
+          <span 
+          className="add-project__cancel" 
+          data-testid="hide-project-overlay" 
+          onClick={() => setShow(false)} 
+          onKeyDown={() => setShow(false)} 
+          role="button" 
+          tabIndex={0}
+          > Cancel</span>
         </div>)}
-        <span className="add-project__plus">+</span>
-        <span className="add-project__text" data-testid="add-project-action" onClick={() => setShow(!show)}>Add Project</span>
+        <span className="add-project__plus"
+        onClick={() => setShow(!show)} 
+        onKeyDown={() => setShow(!show)} 
+        role="button" 
+        tabIndex={0}
+        >+</span>
+        <span 
+        aria-label="Add Project"
+        className="add-project__text" 
+        data-testid="add-project-action" 
+        onClick={() => setShow(!show)} 
+        onKeyDown={() => setShow(!show)} 
+        role="button" 
+        tabIndex={0}
+        >Add Project</span>
     </div>
   )
 };

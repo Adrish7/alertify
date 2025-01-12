@@ -127,10 +127,11 @@ $generic-bg: #33d165;
     }
   }
 
+
 /* Header
   ============================================ */
   header {
-    border-bottom: solid 1px #ca2100;
+    border-bottom: solid 1px #00ca40;
     background-color: $generic-bg;
     -webkit-transition: height 200ms ease-in;
     transition: height 200ms ease-in;
@@ -253,7 +254,10 @@ $generic-bg: #33d165;
       }
     }
     &__project {
+ 
       cursor: pointer;
+
+
   
       div:nth-child(1) {
         padding: 5px 0;
@@ -655,3 +659,25 @@ $generic-bg: #33d165;
     }
   }
 }
+
+/* Project Overlay
+  ============================================ */
+  .project-overlay {
+    @include box-overlay();
+    background-color: white;
+  
+    @include mq('900px') {
+      width: 200px;
+      right: 0;
+    }
+  
+    &__list li {
+      @include task-item();
+      padding: 0;
+  
+      div:nth-child(1) {
+        width: 100%;
+        padding: 10px;
+      }
+    }
+  }

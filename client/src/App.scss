@@ -27,7 +27,7 @@ ul {
 //variables 
 $generic-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 4px 11px;
 $generic-border: 1px solid #f1f1f1;
-$generic-bg: #33d165;
+$generic-bg: #3dca69;
 
 // mixins
 @mixin box-overlay() {
@@ -237,13 +237,16 @@ $generic-bg: #33d165;
     height: calc(100vh);
     padding-top: 74px;
     position: fixed;
+    left: 20px;
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: auto;
     border-right: $generic-border;
-    background-color: #fafafa;
+    background-color: white;
   
     @include mq('900px') {
+      position: absolute;
       display: none;
+      z-index: 1000;
     }
   
     li {
@@ -311,6 +314,33 @@ $generic-bg: #33d165;
           color: #af38eb;
         }
       }
+      &:nth-child(6) {
+        .sidebar__dot {
+          color: #6acc95;
+        }
+      }
+      &:nth-child(7) {
+        .sidebar__dot {
+          color: #fa039f;
+        }
+      }
+      &:nth-child(8) {
+        .sidebar__dot {
+          color: #7521be;
+        }
+      }
+      &:nth-child(9) {
+        .sidebar__dot {
+          color: #fde052;
+        }
+      }
+      &:nth-child(10) {
+        .sidebar__dot {
+          color: #fa0000;
+        }
+      }
+
+
     }
   
     &__projects {
@@ -456,10 +486,10 @@ $generic-bg: #33d165;
 /* Tasks
   ============================================ */
   .tasks {
-    width: 656px;
+    width: calc(100% - 266px);
     background-color: white;
     margin-left: 266px;
-    border-right: $generic-border;
+    /*border-right: $generic-border;*/
     min-height: calc(100vh);
     vertical-align: top;
     padding-left: 40px;
@@ -681,3 +711,33 @@ $generic-bg: #33d165;
       }
     }
   }
+
+  /* Add Project
+  ============================================ */
+.add-project {
+  padding-left: 13px;
+  padding-right: 20px;
+  margin-top: 20px;
+
+  &__input {
+    margin-bottom: 20px;
+  }
+
+  &__name {
+    width: 100%;
+    border: 1px solid #ddd;
+    background-color: white !important;
+    border-radius: 3px;
+    height: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  &__submit {
+    @include btn('100px');
+  }
+
+  &__cancel {
+    @include cancel();
+  }
+}

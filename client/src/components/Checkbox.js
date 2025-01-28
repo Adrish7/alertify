@@ -8,6 +8,7 @@ export const Checkbox = ({ id, taskDesc }) => {
     await updateDoc(taskRef, {
       archived: true,
     });
+    // add the animation for ticking the checkbox here
   };
 
   return (

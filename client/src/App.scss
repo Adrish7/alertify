@@ -242,6 +242,7 @@ $generic-bg: #3dca69;
     overflow-y: auto;
     border-right: $generic-border;
     background-color: white;
+
   
     @include mq('900px') {
       position: absolute;
@@ -389,8 +390,6 @@ $generic-bg: #3dca69;
       li {
         list-style-type: none;
         color: #333;
-        display: -webkit-box;
-        display: -ms-flexbox;
         display: flex;
         cursor: pointer;
         line-height: 1.50;
@@ -399,20 +398,14 @@ $generic-bg: #3dca69;
         padding-right: 0;
   
         div:nth-child(1) {
-          display: -webkit-box;
-          display: -ms-flexbox;
           display: flex;
           padding: 10px 0 10px 10px;
           width: 100%;
   
           span:first-of-type {
             margin-right: 10px;
-            display: -webkit-box;
-            display: -ms-flexbox;
             display: flex;
-            -webkit-box-align: center;
-                -ms-flex-align: center;
-                    align-items: center;
+            align-items: center;
   
             svg {
               width: 18px;
@@ -475,9 +468,7 @@ $generic-bg: #3dca69;
   ============================================ */
   .content {
     display: grid;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    align-items: center;
     grid-template-columns: 1fr auto;
     max-width: 922px;
     margin: auto;
@@ -489,7 +480,6 @@ $generic-bg: #3dca69;
     width: calc(100% - 266px);
     background-color: white;
     margin-left: 266px;
-    /*border-right: $generic-border;*/
     min-height: calc(100vh);
     vertical-align: top;
     padding-left: 40px;
@@ -513,8 +503,6 @@ $generic-bg: #3dca69;
     }
   
     &__list li {
-      display: -webkit-box;
-      display: -ms-flexbox;
       display: flex;
       line-height: 18px;
       color: #333;
@@ -526,15 +514,9 @@ $generic-bg: #3dca69;
   
       .checkbox-holder {
         margin-right: 20px;
-        display: -webkit-box;
-        display: -ms-flexbox;
         display: flex;
-        -webkit-box-align: center;
-            -ms-flex-align: center;
-                align-items: center;
-        -webkit-box-pack: center;
-            -ms-flex-pack: center;
-                justify-content: center;
+        align-items: center;
+        justify-content: center;
         line-height: 16px;
   
         .checkbox {
@@ -672,12 +654,8 @@ $generic-bg: #3dca69;
     div:nth-child(1) {
       padding: 10px;
       width: 100%;
-      display: -webkit-box;
-      display: -ms-flexbox;
       display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
+      align-items: center;
 
       span:first-of-type {
         margin-right: 10px;
@@ -741,3 +719,112 @@ $generic-bg: #3dca69;
     @include cancel();
   }
 }
+
+// icons 
+.task-icons {
+  display: flex;
+  margin-top: 5px; // Adjust the spacing as needed
+  margin-left: 55px;
+}
+
+.task-icons .icon {
+  margin-right: 10px; // Adjust the spacing as needed
+  font-size: 14px; // Adjust the size as needed
+  color: #3fbb66; // Adjust the color as needed
+  cursor: pointer;
+}
+
+.tasks__list li {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px; // Adjust the spacing between tasks as needed
+}
+
+.tasks__list li .task-content {
+  display: flex;
+  align-items: center;
+}
+
+.tasks__list li .task-content span {
+  margin-left: 10px; // Adjust the spacing between the checkbox and task text as needed
+  margin-bottom: 5px; // Adjust the spacing between the task text and icons as needed
+}
+.reminder-modal {
+  position: absolute;
+  transform: translate(32%, 30%); /* Position below the icon */
+  z-index: 10;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
+
+  &__header {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .time-picker-container {
+    display: flex;
+    align-items: center;
+
+    input[type="time"] {
+      padding: 5px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 5px 10px;
+      background-color: #3fbb66;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #2f9d55;
+      }
+    }
+  }
+
+  .reminder-modal__actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    .cancel-btn {
+      background-color: transparent;
+      color: #555;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.task-icons {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .icon-bell {
+    margin-right: 10px;
+    font-size: 16px;
+    color: #555;
+    cursor: pointer;
+
+    &:hover {
+      color: #3fbb66;
+    }
+  }
+}
+
+

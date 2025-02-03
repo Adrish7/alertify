@@ -3,6 +3,7 @@ import {Header} from './components/layout/Header';
 import Content from './components/layout/Content';
 import { ProjectsProvider, SelectedProjectProvider } from './context';
 
+
 function App(darkModeDefault = false) {
 
   const [darkMode, setDarkMode] = useState(darkModeDefault);
@@ -16,6 +17,7 @@ function App(darkModeDefault = false) {
         >
         <Header darkMode={darkMode} setDarkMode={setDarkMode}/>
         <Content />
+
         </main>
 
       </ProjectsProvider> 

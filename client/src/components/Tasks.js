@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { doc, updateDoc } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { FaBell } from "react-icons/fa";
 import { Checkbox } from "./Checkbox";
@@ -8,6 +8,8 @@ import { collatedTasks } from "../constants";
 import { getTitle, getCollatedTitle, collatedTasksExist } from "../helpers";
 import { useSelectedProjectValue, useProjectsValue } from "../context";
 import { AddTask } from "./AddTask";
+import Ballpit from "./Ballpit";
+
 
 export const Tasks = () => {
   const { selectedProject } = useSelectedProjectValue();
@@ -15,9 +17,9 @@ export const Tasks = () => {
   const { tasks } = useTasks(selectedProject);
 
   let projectName = "";
-  const [showModal, setShowModal] = useState(null); // To toggle modal per task
-  const [reminderTimes, setReminderTimes] = useState({}); // Store reminder times per task
-  const [tempTime, setTempTime] = useState(""); // Temporary state for the time picker
+  const [showModal, setShowModal] = useState(null);
+  const [reminderTimes, setReminderTimes] = useState({});
+  const [tempTime, setTempTime] = useState("");
 
   if (projects.length > 0 && projects && selectedProject && !collatedTasksExist(selectedProject)) {
     projectName = getTitle(projects, selectedProject).name;
@@ -27,18 +29,35 @@ export const Tasks = () => {
     projectName = getCollatedTitle(collatedTasks, selectedProject).name;
   }
 
+  // Fetch reminder times from Firestore when tasks change
+  useEffect(() => {
+    const fetchReminders = async () => {
+      const updatedReminders = {};
+      for (const task of tasks) {
+        const taskDocRef = doc(db, "tasks", task.id);
+        const taskDocSnap = await getDoc(taskDocRef);
+        if (taskDocSnap.exists()) {
+          updatedReminders[task.id] = taskDocSnap.data().reminderTime || ""; // Get reminder time or default to empty
+        }
+      }
+      setReminderTimes(updatedReminders);
+    };
+
+    if (tasks.length > 0) {
+      fetchReminders();
+    }
+  }, [tasks]); // Re-fetch when tasks change
+
   const handleSaveReminder = async (taskId) => {
     setReminderTimes((prev) => ({
       ...prev,
       [taskId]: tempTime,
     }));
-    setShowModal(null); // Close modal
+    setShowModal(null);
 
     try {
       const taskDocRef = doc(db, "tasks", taskId);
-      await updateDoc(taskDocRef, {
-        reminderTime: tempTime,
-      });
+      await updateDoc(taskDocRef, { reminderTime: tempTime });
       console.log(`Saved reminder for task ${taskId}: ${tempTime}`);
     } catch (error) {
       console.error("Error saving reminder:", error.message);
@@ -60,12 +79,12 @@ export const Tasks = () => {
               <FaBell
                 className="icon icon-bell"
                 onClick={() => {
-                  setShowModal(task.id); // Open modal for this task
-                  setTempTime(reminderTimes[task.id] || ""); // Load saved time into the picker
+                  setShowModal(task.id);
+                  setTempTime(reminderTimes[task.id] || "");
                 }}
               />
               {reminderTimes[task.id] && (
-                <span className="reminder-time">{reminderTimes[task.id]}</span> // Show saved reminder
+                <span className="reminder-time">{reminderTimes[task.id]}</span>
               )}
             </div>
 
@@ -76,15 +95,12 @@ export const Tasks = () => {
                   <input
                     type="time"
                     value={tempTime}
-                    onChange={(e) => setTempTime(e.target.value)} // Update temporary state
+                    onChange={(e) => setTempTime(e.target.value)}
                   />
                   <button onClick={() => handleSaveReminder(task.id)}>Save</button>
                 </div>
                 <div className="reminder-modal__actions">
-                  <button
-                    className="cancel-btn"
-                    onClick={() => setShowModal(null)} // Close modal
-                  >
+                  <button className="cancel-btn" onClick={() => setShowModal(null)}>
                     Cancel
                   </button>
                 </div>
@@ -94,6 +110,9 @@ export const Tasks = () => {
         ))}
       </ul>
       <AddTask />
+
+      
+
     </div>
   );
 };

@@ -11,6 +11,9 @@ function Sidebar() {
   const [showProjects, setShowProjects] = useState(true);
   return (
     <div className="sidebar" data-testid="sidebar">
+      <div className = "logo">
+          <img src="/images/logo.png" alt="Logo" />
+      </div>
       <ul className="sidebar__generic">
         <li data-testid="inbox" className={active === 'inbox' ? 'active':undefined}>
         <div

@@ -4,10 +4,10 @@ import Content from './components/layout/Content';
 import { ProjectsProvider, SelectedProjectProvider } from './context';
 
 
-function App(darkModeDefault = false) {
+function App() {
 
-  const [darkMode, setDarkMode] = useState(darkModeDefault);
-
+  const [darkMode, setDarkMode] = useState(false);
+// put header above content
   return (
     <SelectedProjectProvider>
       <ProjectsProvider>
@@ -15,7 +15,7 @@ function App(darkModeDefault = false) {
         data-testid="application"
         className={darkMode ? 'darkmode' : undefined}
         >
-        <Header darkMode={darkMode} setDarkMode={setDarkMode}/>
+
         <Content />
 
         </main>

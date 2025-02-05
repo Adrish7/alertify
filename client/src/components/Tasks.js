@@ -8,7 +8,9 @@ import { collatedTasks } from "../constants";
 import { getTitle, getCollatedTitle, collatedTasksExist } from "../helpers";
 import { useSelectedProjectValue, useProjectsValue } from "../context";
 import { AddTask } from "./AddTask";
-import Ballpit from "./Ballpit";
+import { FaClock } from "react-icons/fa6";
+
+
 
 
 export const Tasks = () => {
@@ -83,10 +85,14 @@ export const Tasks = () => {
                   setTempTime(reminderTimes[task.id] || "");
                 }}
               />
+              <FaClock className="icon icon-clock" />
+              <div>
               {reminderTimes[task.id] && (
                 <span className="reminder-time">{reminderTimes[task.id]}</span>
               )}
+              </div>
             </div>
+            
 
             {showModal === task.id && (
               <div className="reminder-modal">

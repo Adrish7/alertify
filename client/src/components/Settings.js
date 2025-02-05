@@ -1,15 +1,13 @@
-import React from "react";
-import { useState } from "react";
+import React, {useState} from "react";
 import { CgDarkMode } from "react-icons/cg";
-import { AddTask } from "../AddTask";
-export const Header = ({darkMode, setDarkMode}) => {
+import { AddTask } from "./AddTask";
+
+export const Settings = () => {
   const [shouldShowMain, setShouldShowMain] = useState(false);
   const [showQuickAddTask, setShowQuickAddTask] = useState(false);
-  return (
-    <header className="header" data-testid="header">
-      <nav>
-        <div className="settings">
-          <ul>
+  return(
+    <div className="settings">
+          <ul className="settings__generic">
             <li data-testid="quick-add-task-action" className="settings__add" >
               <button 
               aria-label="Quick Add Task"
@@ -38,10 +36,9 @@ export const Header = ({darkMode, setDarkMode}) => {
               
             </li>
           </ul>
-          
+          <AddTask showAddTaskMain={false} shouldShowMain={shouldShowMain} showQuickAddTask={showQuickAddTask} setShowQuickAddTask={setShowQuickAddTask}/>
         </div>
-      </nav>
-      <AddTask showAddTaskMain={false} shouldShowMain={shouldShowMain} showQuickAddTask={showQuickAddTask} setShowQuickAddTask={setShowQuickAddTask}/>
-    </header>
-  );
-}
+  
+  ) 
+  
+};

@@ -3,16 +3,24 @@ import { FaChevronDown, FaInbox, FaRegCalendarAlt, FaRegCalendar } from "react-i
 import { Projects } from "../Projects";
 import { useSelectedProjectValue } from "../../context";
 import { AddProject } from "../AddProject";
+import { CgDarkMode } from "react-icons/cg";
+import { AddTask } from "../AddTask";
+import { IoSettingsOutline } from "react-icons/io5";
+
 
 
 function Sidebar() {
   const {setSelectedProject} = useSelectedProjectValue();
   const [active, setActive] = useState('inbox');
   const [showProjects, setShowProjects] = useState(true);
+ 
   return (
     <div className="sidebar" data-testid="sidebar">
+      <div className="sidebar-header">
+      <IoSettingsOutline className="settings-icon"/>
       <div className = "logo">
           <img src="/images/logo.png" alt="Logo" />
+      </div>
       </div>
       <ul className="sidebar__generic">
         <li data-testid="inbox" className={active === 'inbox' ? 'active':undefined}>
@@ -93,6 +101,8 @@ function Sidebar() {
     {showProjects && <AddProject/>}
     
   </div>
+  
+  
   );
 }
 

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Header} from './components/layout/Header';
 import Content from './components/layout/Content';
 import { ProjectsProvider, SelectedProjectProvider } from './context';
+import { Settings } from './components/Settings';
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
         data-testid="application"
         className={darkMode ? 'darkmode' : undefined}
         >
-
+        <Settings />
         <Content />
 
         </main>

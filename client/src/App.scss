@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 //@import url('https://fonts.googleapis.com/css?family=Roboto:400,700,900');
-@import "tailwindcss";
+
 html {
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 *, *:before, *:after {
   box-sizing: inherit;
@@ -81,10 +82,11 @@ $generic-bg: #0b4d21;
 }
 
 @mixin cancel() {
-  color: #555;
+  color: white;
   cursor: pointer;
   font-size: 14px;
   margin: 2px 5px;
+  font-weight: bold;
 }
 @mixin transparent-button() {
   background-color: transparent;
@@ -244,17 +246,42 @@ $generic-bg: #0b4d21;
       display: none;
       z-index: 1000;
     }
-    div{
-      &.logo {
-          // Take it out of the normal flow
-        left: 10px;          // Push it to the left side
-        top: -30%;
-        transform: translateX(11%);
+    
+    .sidebar-header{
+      margin: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 120px;
+
+
+      .settings-icon{
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+      }
+
+      .logo {
+        margin-bottom: 9px;
         img {
-          width: 200px;
+          /* Ensure logo scales properly */
+          height: auto; /* Maintain aspect ratio */
+          width: 200px; /* Fixed width */
+
         }
       }
     }
+    
+  //   &.logo {
+  //     // Take it out of the normal flow
+  //   left: 10px;          // Push it to the left side
+  //   top: -30%;
+  //   transform: translateX(11%);
+  //   img {
+  //     width: 200px;
+  //   }
+  // }
+    
       
     
   
@@ -267,7 +294,7 @@ $generic-bg: #0b4d21;
       }
     }
     &__project {
- 
+      margin-left: 5px;
       cursor: pointer;
 
 
@@ -296,7 +323,8 @@ $generic-bg: #0b4d21;
   
       &.active, &:hover {
         font-weight: bold;
-        background-color: rgb(141, 190, 155);
+        background-color: rgb(43, 194, 86);
+        border-radius: 15px;
       }
   
       &:nth-child(1) {
@@ -376,7 +404,8 @@ $generic-bg: #0b4d21;
       cursor: pointer;
   
       span {
-        color: #0000008a;
+        color: white;
+        margin-left: 5px;
         margin-right: 10px;
   
         svg.hidden-projects {
@@ -390,7 +419,7 @@ $generic-bg: #0b4d21;
         color: white;
         font-size: 15px;
         font-weight: bold;
-        padding-bottom: 20px;
+
       }
     }
   
@@ -404,6 +433,7 @@ $generic-bg: #0b4d21;
         font-size: 15px;
         padding-left: 5px;
         padding-right: 0;
+        border-radius: 15px;
   
         div:nth-child(1) {
           display: flex;
@@ -425,7 +455,7 @@ $generic-bg: #0b4d21;
   
         &.active, &:hover {
           font-weight: bold;
-          background-color: rgb(141, 190, 155);
+          background-color: rgb(43, 194, 86);
         }
       }
     }
@@ -562,10 +592,7 @@ $generic-bg: #0b4d21;
       @include mq('900px') {
         width: 90%;
       }
-
       overflow: visible;
-      margin-bottom: 20px;
-      margin-top: 55px;
       border-radius: 5px;
       background-color: white;
       position: absolute;
@@ -579,16 +606,18 @@ $generic-bg: #0b4d21;
         font-size: 13px;
         margin-bottom: 20px;
         float: left;
+        color: black;
       }
     }
 
     .add-task__cancel-x {
       cursor: pointer;
-      color: gray;
+      color: red;
       float: right;
       font-weight: bold;
-      font-size: 12px;
-      margin-top: 10px;
+      font-size: 20px;
+      margin-top: 8px;
+      
     }
   }
 
@@ -610,7 +639,6 @@ $generic-bg: #0b4d21;
   &__content {
     width: 100%;
     border: 1px solid #ddd;
-    background-color: white !important;
     border-radius: 3px;
     height: 35px;
     padding-left: 10px;
@@ -647,6 +675,12 @@ $generic-bg: #0b4d21;
   font-size: 14px;
   margin-left: 15px;
 }
+.add-project__input{
+  color: black;
+  border: white;
+
+}
+
 
 /* Task Date
   ============================================ */
@@ -765,17 +799,22 @@ $generic-bg: #0b4d21;
 .tasks__list li {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px; // Adjust the spacing between tasks as needed
+  margin-bottom: 0px; // Adjust the spacing between tasks as needed
+  // align all the items so they are not in the centered horizontally but centred vertically wherever they are
+  padding: 15px 0 15px 0;
+
 }
 
 .tasks__list li .task-content {
   display: flex;
   align-items: center;
+
 }
 
 .tasks__list li .task-content span {
   margin-left: 10px; // Adjust the spacing between the checkbox and task text as needed
   margin-bottom: 5px; // Adjust the spacing between the task text and icons as needed
+
 }
 .reminder-modal {
   position: absolute;
@@ -806,15 +845,17 @@ $generic-bg: #0b4d21;
       border-radius: 5px;
       margin-right: 10px;
       color: black;
+      cursor: pointer;
+      font-family: 'Poppins';
     }
 
     button {
+      cursor: pointer;
       padding: 5px 10px;
       background-color: #3fbb66;
       color: white;
       border: none;
       border-radius: 5px;
-      cursor: pointer;
 
       &:hover {
         background-color: #2f9d55;
@@ -842,625 +883,67 @@ $generic-bg: #0b4d21;
   }
 }
 
+.reminder-time{
+  background-color: $generic-bg;
+  padding: 2px 5px 2px 5px ;
+  border-radius: 5px;
+  border: 1px solid #3fbb66;
+  font-size: 12px;
+}
+
+// Settings components
+.settings {
+  grid-area: 1 / 2;
+  text-align: right;
+
+  ul {
+    float: right;
+  }
+
+  ul li {
+    @include va;
+
+    list-style-type: none;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    float: left;
+    margin: 10px 10px 0 0;
+
+    &:hover {
+      border-radius: 3px;
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    &.settings__add {
+      margin-right: 5px;
+
+      button {
+        @include transparent-button();
+        color: white;
+        cursor: pointer;
+        font-size: 30px;
+      }
+    }
+
+    &.settings__darkmode {
+      button {
+        @include transparent-button();
+        color: white;
+        cursor: pointer;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+    }
+  }
+}
 
-
-
-// @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-
-// html {
-//   box-sizing: border-box;
-// }
-
-// *, *:before, *:after {
-//   box-sizing: inherit;
-// }
-
-// body {
-//   margin: 0;
-//   padding: 0;
-//   line-height: 1;
-//   font-family: 'Poppins', sans-serif;
-//   color: black;
-//   background-color: #f5f5f5; /* Light background for contrast */
-//   font-smooth: always;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-// }
-
-// ul {
-//   padding: 0;
-//   margin: 0;
-// }
-
-// // Variables
-// $generic-box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-// $generic-border: 1px solid #e0e0e0;
-// $generic-bg: #4caf50; /* Lighter green */
-// $task-bubble-bg: #ffffff; /* White background for bubbles */
-// $task-bubble-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-
-// // Mixins
-// @mixin box-overlay() {
-//   -webkit-box-shadow: $generic-box-shadow;
-//   box-shadow: $generic-box-shadow;
-//   position: absolute;
-//   width: 100%;
-//   z-index: 1;
-//   top: 85px;
-//   border-radius: 12px; /* Rounded corners for overlays */
-// }
-
-// @mixin va($va-align: center) {
-//   display: flex;
-//   align-items: center;
-//   @if $va-align != center {
-//     justify-content: left;
-//   } @else {
-//     justify-content: center;
-//   }
-// }
-
-// @mixin no-select {
-//   -webkit-touch-callout: none;
-//   -webkit-user-select: none;
-//   -khtml-user-select: none;
-//   -moz-user-select: none;
-//   -ms-user-select: none;
-//   user-select: none;
-// }
-
-// @mixin btn($width) {
-//   width: $width;
-//   background-color: $generic-bg;
-//   color: #fff !important;
-//   border: 1px solid transparent;
-//   margin-right: 5px;
-//   margin-top: 10px;
-//   font-weight: bold;
-//   font-size: 13px !important;
-//   line-height: 17px;
-//   padding: 8px 16px; /* Slightly larger padding */
-//   position: relative;
-//   display: inline-block;
-//   white-space: nowrap;
-//   border-radius: 20px; /* Rounded buttons */
-//   text-decoration: none !important;
-//   text-align: center;
-//   cursor: pointer;
-//   transition: background-color 0.3s ease, transform 0.2s ease;
-
-//   &:hover {
-//     background-color: darken($generic-bg, 10%);
-//     transform: scale(1.05); /* Slight scale effect on hover */
-//   }
-// }
-
-// @mixin cancel() {
-//   color: #555;
-//   cursor: pointer;
-//   font-size: 14px;
-//   margin: 2px 5px;
-//   transition: color 0.3s ease;
-
-//   &:hover {
-//     color: #333;
-//   }
-// }
-
-// @mixin transparent-button() {
-//   background-color: transparent;
-//   border: 0;
-// }
-
-// @mixin task-item() {
-//   list-style-type: none;
-//   display: flex;
-//   line-height: 18px;
-//   color: #333;
-//   padding: 20px; /* Larger padding for bigger bubbles */
-//   font-size: 14px;
-//   border-radius: 20px; /* Rounded corners for bubbles */
-//   background-color: $task-bubble-bg;
-//   box-shadow: $task-bubble-shadow; /* Shadow for bubble effect */
-//   margin-bottom: 15px; /* Space between bubbles */
-//   transition: box-shadow 0.3s ease, transform 0.2s ease;
-
-//   &:hover {
-//     box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 16px; /* Deeper shadow on hover */
-//     transform: translateY(-2px); /* Slight lift effect */
-//   }
-// }
-
-// @mixin mq($from) {
-//   @media (max-width: $from) {
-//     @content;
-//   }
-// }
-
-// /* Header */
-// header {
-//   border-bottom: solid 1px darken($generic-bg, 10%);
-//   background-color: $generic-bg;
-//   transition: height 200ms ease-in;
-//   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-//   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-//   height: 60px; /* Slightly taller header */
-//   z-index: 400;
-//   position: fixed;
-//   top: 0;
-//   width: 100%;
-
-//   @include mq('900px') {
-//     padding: 0 10px;
-//   }
-
-//   nav {
-//     display: grid;
-//     align-items: center;
-//     grid-template-columns: 1fr 1fr;
-//     grid-template-rows: 1fr;
-//     grid-column-gap: 0px;
-//     grid-row-gap: 0px;
-//     max-width: 922px;
-//     margin: auto;
-//     height: 60px;
-
-//     p, li {
-//       color: white;
-//     }
-
-//     div {
-//       &.logo {
-//         padding-left: 8px;
-//         grid-area: 1 / 1;
-
-//         img {
-//           width: 80px; /* Slightly larger logo */
-//         }
-//       }
-
-//       &.settings {
-//         grid-area: 1 / 2;
-//         text-align: right;
-
-//         ul {
-//           float: right;
-
-//           li {
-//             @include va;
-
-//             list-style-type: none;
-//             cursor: pointer;
-//             width: 36px; /* Slightly larger icons */
-//             height: 36px;
-//             text-align: center;
-//             vertical-align: middle;
-//             float: left;
-//             transition: background-color 0.3s ease;
-
-//             &:hover {
-//               border-radius: 50%; /* Circular hover effect */
-//               background-color: rgba(255,255,255,0.2);
-//             }
-
-//             &.settings__add {
-//               margin-right: 15px;
-//               font-size: 30px;
-
-//               button {
-//                 @include transparent-button();
-//                 color: white;
-//                 cursor: pointer;
-//               }
-//             }
-
-//             &.settings__darkmode {
-//               button {
-//                 @include transparent-button();
-//                 color: white;
-//                 cursor: pointer;
-//                 display: flex;
-
-//                 svg {
-//                   width: 24px; /* Slightly larger icon */
-//                   height: 24px;
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-
-// /* Sidebar */
-// .sidebar {
-//   @include no-select();
-//   width: 266px;
-//   height: calc(100vh);
-//   padding-top: 84px; /* Adjusted for taller header */
-//   position: fixed;
-//   left: 20px;
-//   overflow-x: hidden;
-//   overflow-y: auto;
-//   border-right: $generic-border;
-//   background-color: white;
-//   border-radius: 0 20px 20px 0; /* Rounded corners on the right */
-
-//   @include mq('900px') {
-//     position: absolute;
-//     display: none;
-//     z-index: 1000;
-//   }
-
-//   li {
-//     &:hover .sidebar__project-delete {
-//       display: flex;
-//     }
-//   }
-
-//   &__project {
-//     cursor: pointer;
-
-//     div:nth-child(1) {
-//       padding: 10px; /* More padding */
-//       padding-left: 15px;
-//       padding-right: 15px;
-//       width: 100%;
-//       display: flex;
-//       align-items: center;
-//       border-radius: 15px; /* Rounded corners for project items */
-//       transition: background-color 0.3s ease;
-
-//       &:hover {
-//         background-color: #f0f0f0; /* Subtle hover effect */
-//       }
-//     }
-
-//     &-delete {
-//       margin-left: auto;
-//       display: none;
-
-//       svg {
-//         color: #cacaca;
-//       }
-//     }
-
-//     &.active, &:hover {
-//       font-weight: bold;
-//       background-color: white;
-//     }
-//   }
-
-//   &__projects {
-//     padding-left: 10px; /* Adjusted padding */
-//   }
-
-//   &__project {
-//     @include va('left');
-//   }
-
-//   &__dot {
-//     margin-right: 10px;
-//     font-size: 30px;
-//   }
-
-//   &__middle {
-//     margin-top: 20px;
-//     margin-bottom: 20px;
-//     display: flex;
-//     border-bottom: $generic-border;
-//     padding-left: 15px; /* Adjusted padding */
-//     cursor: pointer;
-
-//     span {
-//       color: #0000008a;
-//       margin-right: 10px;
-
-//       svg.hidden-projects {
-//         transform: rotate(-90deg);
-//       }
-//     }
-
-//     h2 {
-//       margin: 0;
-//       color: #333;
-//       font-size: 16px; /* Slightly larger font */
-//       font-weight: bold;
-//       padding-bottom: 20px;
-//     }
-//   }
-
-//   &__generic {
-//     li {
-//       list-style-type: none;
-//       color: #333;
-//       display: flex;
-//       cursor: pointer;
-//       line-height: 1.50;
-//       font-size: 15px;
-//       padding-left: 0;
-//       padding-right: 0;
-
-//       div:nth-child(1) {
-//         display: flex;
-//         padding: 10px 0 10px 15px; /* Adjusted padding */
-//         width: 100%;
-//         border-radius: 15px; /* Rounded corners */
-//         transition: background-color 0.3s ease;
-
-//         &:hover {
-//           background-color: #f0f0f0; /* Subtle hover effect */
-//         }
-
-//         span:first-of-type {
-//           margin-right: 10px;
-//           display: flex;
-//           align-items: center;
-
-//           svg {
-//             width: 18px;
-//             height: 18px;
-//             color: #555;
-//           }
-//         }
-//       }
-
-//       &.active, &:hover {
-//         font-weight: bold;
-//         background-color: white;
-//       }
-//     }
-//   }
-// }
-
-// /* Tasks */
-// .tasks {
-//   width: calc(100% - 266px);
-//   background-color: #f5f5f5; /* Light background for contrast */
-//   margin-left: 266px;
-//   min-height: calc(100vh);
-//   vertical-align: top;
-//   padding-left: 40px;
-//   padding-right: 40px;
-//   padding-top: 100px; /* Adjusted for taller header */
-//   padding-bottom: 84px;
-
-//   @include mq('900px') {
-//     margin-left: 0;
-//     width: auto;
-//   }
-
-//   h2 {
-//     font-size: 20px;
-//     font-weight: normal;
-//     margin: 0 30px 20px 0;
-//   }
-
-//   .add-task {
-//     margin-top: 20px;
-//     cursor: pointer; /* Ensure cursor is pointer */
-//   }
-
-//   &__list li {
-//     @include task-item(); /* Use the bubble effect for tasks */
-
-//     .checkbox-holder {
-//       margin-right: 20px;
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-//       line-height: 16px;
-
-//       .checkbox {
-//         cursor: pointer;
-//         border-color: gray;
-//         color: #343434;
-//         height: 16px;
-//         width: 16px;
-//         display: block;
-//         border: 1px solid gray;
-//         border-radius: 50%; /* Circular checkbox */
-//       }
-//     }
-//   }
-// }
-
-// /* Add Task */
-// .add-task {
-//   &__overlay {
-//     background: rgba(102,102,102,0.5);
-//     position: absolute;
-//     margin: auto;
-//     top: 0;
-//     left: 0;
-//     width: 100%;
-//     height: 100%;
-//     z-index: 2000;
-//     transition: opacity 0.2s ease-in;
-//     height: calc(100vh);
-
-//     .add-task__main {
-//       @include mq('900px') {
-//         width: 90%;
-//       }
-
-//       overflow: visible;
-//       margin-bottom: 20px;
-//       margin-top: 55px;
-//       border-radius: 20px; /* Rounded corners for modal */
-//       background-color: white;
-//       position: absolute;
-//       left: 50%;
-//       top: 50%;
-//       padding: 20px 30px;
-//       transform: translate(-50%, -50%);
-
-//       .header {
-//         font-size: 13px;
-//         margin-bottom: 20px;
-//         float: left;
-//       }
-//     }
-
-//     .add-task__cancel-x {
-//       cursor: pointer;
-//       color: gray;
-//       float: right;
-//       font-weight: bold;
-//       font-size: 12px;
-//       margin-top: 10px;
-//     }
-//   }
-
-//   &__main {
-//     position: relative;
-//   }
-
-//   &__project, &__date {
-//     cursor: pointer;
-//     float: right;
-//     color: gray;
-//     margin: 20px 10px;
-//   }
-
-//   &__project {
-//     margin-right: 0;
-//   }
-
-//   &__content {
-//     width: 100%;
-//     border: 1px solid #ddd;
-//     background-color: white !important;
-//     border-radius: 20px; /* Rounded corners for input */
-//     height: 40px; /* Slightly taller input */
-//     padding-left: 15px;
-//     padding-right: 15px;
-//   }
-
-//   &__cancel, &__submit {
-//     @include no-select;
-//   }
-
-//   &__cancel {
-//     @include cancel();
-//   }
-
-//   &__submit {
-//     @include btn('90px');
-//   }
-// }
-
-// /* Add Project */
-// .add-project {
-//   padding-left: 13px;
-//   padding-right: 20px;
-//   margin-top: 20px;
-//   cursor: pointer; /* Ensure cursor is pointer */
-
-//   &__input {
-//     margin-bottom: 20px;
-//   }
-
-//   &__name {
-//     width: 100%;
-//     border: 1px solid #ddd;
-//     background-color: white !important;
-//     border-radius: 20px; /* Rounded corners for input */
-//     height: 40px; /* Slightly taller input */
-//     padding-left: 15px;
-//     padding-right: 15px;
-//   }
-
-//   &__submit {
-//     @include btn('100px');
-//   }
-
-//   &__cancel {
-//     @include cancel();
-//   }
-// }
-
-// /* Icons */
-// .task-icons {
-//   display: flex;
-//   margin-top: 10px; /* Adjusted spacing */
-//   margin-left: 55px;
-// }
-
-// .task-icons .icon {
-//   margin-right: 10px;
-//   font-size: 14px;
-//   color: #4caf50; /* Green color for icons */
-//   cursor: pointer;
-//   transition: color 0.3s ease;
-
-//   &:hover {
-//     color: darken(#4caf50, 10%);
-//   }
-// }
-
-// /* Reminder Modal */
-// .reminder-modal {
-//   position: absolute;
-//   transform: translate(32%, 30%);
-//   z-index: 10;
-//   background-color: white;
-//   border: 1px solid #ddd;
-//   border-radius: 20px; /* Rounded corners for modal */
-//   padding: 15px; /* More padding */
-//   box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 16px; /* Deeper shadow */
-
-//   &__header {
-//     font-size: 14px;
-//     font-weight: bold;
-//     margin-bottom: 10px;
-//   }
-
-//   .time-picker-container {
-//     display: flex;
-//     align-items: center;
-
-//     input[type="time"] {
-//       padding: 8px; /* More padding */
-//       font-size: 14px;
-//       border: 1px solid #ddd;
-//       border-radius: 20px; /* Rounded corners */
-//       margin-right: 10px;
-//     }
-
-//     button {
-//       padding: 8px 16px; /* More padding */
-//       background-color: #4caf50; /* Green color */
-//       color: white;
-//       border: none;
-//       border-radius: 20px; /* Rounded corners */
-//       cursor: pointer;
-//       transition: background-color 0.3s ease;
-
-//       &:hover {
-//         background-color: darken(#4caf50, 10%);
-//       }
-//     }
-//   }
-
-//   .reminder-modal__actions {
-//     display: flex;
-//     justify-content: space-between;
-//     margin-top: 10px;
-
-//     .cancel-btn {
-//       background-color: transparent;
-//       color: #555;
-//       border: none;
-//       font-size: 14px;
-//       cursor: pointer;
-//       transition: color 0.3s ease;
-
-//       &:hover {
-//         text-decoration: underline;
-//       }
-//     }
-//   }
-// }

@@ -7,6 +7,8 @@ import { addDoc, collection } from "firebase/firestore";
 import { useSelectedProjectValue } from "../context";
 import { ProjectOverlay } from "./ProjectOverlay";
 import {TaskDate} from "./TaskDate";
+import { IoMdCloseCircle } from "react-icons/io";
+
 
 
 export const AddTask = ({showAddTaskMain = true, shouldShowMain = false, showQuickAddTask, setShowQuickAddTask}) => {
@@ -17,6 +19,7 @@ export const AddTask = ({showAddTaskMain = true, shouldShowMain = false, showQui
   const [showProjectOverlay, setShowProjectOverlay] = useState(false);
   const [showTaskDate, setShowTaskDate] = useState(false);
   const { selectedProject } = useSelectedProjectValue();
+
 
   const addTask = () => {
     // if there is a project that has already been set by the user or there is a selected project 
@@ -78,7 +81,10 @@ export const AddTask = ({showAddTaskMain = true, shouldShowMain = false, showQui
                 }}
                 role="button"
                 tabIndex={0}
-                >X</span>
+                >
+                  <IoMdCloseCircle />
+
+                </span>
               </div>
             </>
           )}

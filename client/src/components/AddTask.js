@@ -91,7 +91,15 @@ export const AddTask = ({showAddTaskMain = true, shouldShowMain = false, showQui
           <ProjectOverlay setProject={setProject} showProjectOverlay={showProjectOverlay} setShowProjectOverlay={setShowProjectOverlay} />
           <TaskDate setTaskDate={setTaskDate} showTaskDate={showTaskDate} setShowTaskDate={setShowTaskDate} />
           {/* put setTaskTime in here as well*/}
-          <input className="add-task__content" aria-label="Enter your task" data-testid="add-task-content" type="text" value={task} onChange={e => setTask(e.target.value)} />
+          <input className="add-task__content" aria-label="Enter your task" data-testid="add-task-content" type="text" value={task} onChange={e => setTask(e.target.value)} 
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                showQuickAddTask 
+                  ? addTask() && setShowQuickAddTask(false)
+                  : addTask();
+              }
+            }}
+           />
           <button className="add-task__submit" data-testid="add-task" type="button" onClick={() => showQuickAddTask 
             ? addTask() && setShowQuickAddTask(false)
             : addTask()

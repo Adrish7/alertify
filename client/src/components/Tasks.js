@@ -9,7 +9,7 @@ import { getTitle, getCollatedTitle, collatedTasksExist } from "../helpers";
 import { useSelectedProjectValue, useProjectsValue } from "../context";
 import { AddTask } from "./AddTask";
 import { FaClock } from "react-icons/fa6";
-
+import { BsCaretUpFill } from "react-icons/bs";
 
 
 
@@ -96,6 +96,7 @@ export const Tasks = () => {
 
             {showModal === task.id && (
               <div className="reminder-modal">
+               <BsCaretUpFill className="reminder-modal__arrow" />
                 <div className="reminder-modal__header">Set Reminder</div>
                 <div className="time-picker-container">
                   <input

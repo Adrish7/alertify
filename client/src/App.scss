@@ -30,7 +30,7 @@ ul {
 $generic-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 4px 11px;
 $generic-border: 1px solid #f1f1f1;
 $generic-bg: #0b4d21;
-
+$generic-color: #3fbb66;
 // mixins
 @mixin box-overlay() {
   -webkit-box-shadow: $generic-box-shadow;
@@ -609,6 +609,7 @@ $generic-bg: #0b4d21;
         color: black;
       }
     }
+  
 
     .add-task__cancel-x {
       cursor: pointer;
@@ -638,11 +639,17 @@ $generic-bg: #0b4d21;
 
   &__content {
     width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 3px;
+    border: 3px solid $generic-color;
+    border-radius: 15px;
+    padding: 10px;
     height: 35px;
     padding-left: 10px;
     padding-right: 10px;
+    color: black;
+    // change the color of the placeholder text
+    &::placeholder {
+      color: black;
+    }
   }
 
   &__cancel, &__submit {
@@ -655,6 +662,7 @@ $generic-bg: #0b4d21;
 
   &__submit {
     @include btn('90px');
+    border: 1px solid $generic-color;
   }
 }
 
@@ -756,6 +764,7 @@ $generic-bg: #0b4d21;
 
   &__submit {
     @include btn('100px');
+    background-color: $generic-color;
   }
 
   &__cancel {
@@ -818,7 +827,7 @@ $generic-bg: #0b4d21;
 }
 .reminder-modal {
   position: absolute;
-  transform: translate(32%, 45%); /* Position below the icon */
+  transform: translate(-17%, 53%); /* Position below the icon */
   z-index: 10;
   background-color: white;
   border: 1px solid #ddd;
@@ -881,6 +890,14 @@ $generic-bg: #0b4d21;
       }
     }
   }
+}
+.reminder-modal__arrow{
+  position: absolute;
+  top: -12px; 
+  left: 50%;
+  transform: translateX(-50%);
+  color: white; 
+  font-size: 20px; 
 }
 
 .reminder-time{

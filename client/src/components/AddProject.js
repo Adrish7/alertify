@@ -42,7 +42,11 @@ export const AddProject = ({shouldShow = false}) => {
     <div className = "add-project" data-testid="add-project">
       {show && (
         <div className="add-project__input">
-          <input value={projectName} onChange={e => setProjectName(e.target.value)} className="add-project__name" data-testid="project-name" type="text" placeholder="Name your project"/>
+          <input value={projectName} onChange={e => setProjectName(e.target.value)} className="add-project__name" data-testid="project-name" type="text" placeholder="Name your project"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") addProject();
+          }}
+          />
           <button className="add-project__submit" type="button" onClick={() => addProject()} data-testid="add-project-submit">Add Project</button>
           <span 
           className="add-project__cancel" 

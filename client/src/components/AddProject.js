@@ -33,7 +33,7 @@ export const AddProject = ({shouldShow = false}) => {
         setProjectName("");
         setShow(false);
       } catch (error) {
-        console.error("Error adding project:", error);
+        alert("Error adding project: ", error);
       }
     }
   };

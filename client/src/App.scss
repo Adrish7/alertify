@@ -118,6 +118,16 @@ $generic-color: #3fbb66;
     @content;
   }
 }
+@mixin user-icons{
+    margin-right: 10px;
+    font-size: 16px;
+    color: $generic-color;
+    cursor: pointer;
+
+    &:hover {
+      color: #555;
+    }
+}
 
 /* Darkmode
   ============================================ */
@@ -773,38 +783,27 @@ $generic-color: #3fbb66;
 }
 
 // icons 
+
+
 .task-icons {
   display: flex;
   margin-top: 5px; // Adjust the spacing as needed
   margin-left: 55px;
-}
-
-.task-icons {
   position: relative;
   display: flex;
   align-items: center;
 
   .icon-bell {
-    margin-right: 10px;
-    font-size: 16px;
-    color: #3fbb66;
-    cursor: pointer;
-
-    &:hover {
-      color: #555;
-    }
+    @include user-icons();
   }
   .icon-clock{
-    margin-right: 10px;
-    font-size: 16px;
-    color: #3fbb66;
-    cursor: pointer;
-
-    &:hover {
-      color: #555;
-    }
+    @include user-icons();
+  }
+  .icon-calendar{
+    @include user-icons();
   }
 }
+
 .tasks__list li {
   display: flex;
   flex-direction: column;
@@ -861,7 +860,7 @@ $generic-color: #3fbb66;
     button {
       cursor: pointer;
       padding: 5px 10px;
-      background-color: #3fbb66;
+      background-color: $generic-color;
       color: white;
       border: none;
       border-radius: 5px;
@@ -904,8 +903,136 @@ $generic-color: #3fbb66;
   background-color: $generic-bg;
   padding: 2px 5px 2px 5px ;
   border-radius: 5px;
-  border: 1px solid #3fbb66;
+  border: 1px solid $generic-color;
   font-size: 12px;
+}
+
+// date modal
+.date-picker-modal{
+  position: absolute;
+  transform: translate(-9%, 18%); /* Position below the icon */
+  z-index: 10;
+  background-color: black;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
+  
+
+
+}
+.task-date{
+  background-color: black;
+  padding: 2px 8px; /* Minimal padding */
+  border-radius: 6px; /* Slightly rounder corners */
+  border: 1px solid #3fbb66; /* Green border */
+  font-size: 12px;
+  display: inline-block; /* Makes it fit the text width */
+  width: fit-content;  /* ✅ Ensures width only fits text */
+  min-width: max-content;
+  box-shadow: 0px 2px 5px rgba(63, 187, 102, 0.3); /* Soft green glow */
+  transition: all 0.2s ease-in-out;
+}
+.task-date:hover {
+  box-shadow: 0px 4px 10px rgba(63, 187, 102, 0.5); /* Stronger glow on hover */
+  transform: translateY(-1px);
+}
+// styling the calendar that pops up
+.react-datepicker {
+  background-color: #1a1a1a; // Dark black background
+  border: 1px solid #3fbb66;
+  border-radius: 8px;
+  color: white;
+  padding: 10px;
+  font-family: "Poppins", sans-serif;
+}
+
+.react-datepicker__header {
+  background-color: #222; // Darker header
+  border-bottom: 1px solid #3fbb66;
+  color: white;
+
+}
+
+.react-datepicker__current-month {
+  position: relative;
+  top: -7px; /* Adjust as needed */
+  left:15.5px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #3fbb66;
+  margin-bottom: 5px !important; /* Reduce spacing */
+}
+.react-datepicker__day-name {
+  color: #3fbb66; // Green text for month and week days
+  font-weight: bold;
+
+}
+
+.react-datepicker__day {
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.react-datepicker__day:hover {
+  background-color: #3fbb66; // Green hover effect
+  color: black;
+}
+
+.react-datepicker__day--selected {
+  background-color: #3fbb66 !important; // Green for selected date
+  color: black !important;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.react-datepicker__navigation {
+  top: 12px;
+}
+
+.react-datepicker__navigation--previous {
+  left: 10px;
+}
+
+.react-datepicker__navigation--next {
+  right: 10px;
+}
+
+.react-datepicker__triangle {
+  display: none; // Hides the arrow if not needed
+}
+
+/* Buttons */
+.date-picker-modal__buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.date-picker-modal__save {
+  background-color: #3fbb66;
+  color: black;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.date-picker-modal__save:hover {
+  background-color: #2fa856;
+}
+
+.date-picker-modal__cancel {
+  background-color: #444;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.date-picker-modal__cancel:hover {
+  background-color: #666;
 }
 
 // Settings components

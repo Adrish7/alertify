@@ -16,7 +16,7 @@ export const IndividualProject = ({project}) => {
       setProjects([...projects]); // Update the projects state
       setSelectedProject('INBOX'); // Set the selected project to 'INBOX'
     } catch (error) {
-      console.error('Error deleting project:', error);
+      alert("Error deleting project: ", error);
     }
   };
 

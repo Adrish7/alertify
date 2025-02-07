@@ -10,16 +10,26 @@ import { useSelectedProjectValue, useProjectsValue } from "../context";
 import { AddTask } from "./AddTask";
 import { FaClock } from "react-icons/fa6";
 import { BsCaretUpFill } from "react-icons/bs";
-
-
+import { FaRegCalendarAlt } from "react-icons/fa";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format, parse } from "date-fns";
 
 export const Tasks = () => {
+  // Dates
+  const [showDatePicker, setShowDatePicker] = useState(null);
+  const [selectedDates, setSelectedDates] = useState({});
+  const [tempDate, setTempDate] = useState(null); 
+
+  // Tasks and Projects
   const { selectedProject } = useSelectedProjectValue();
   const { projects } = useProjectsValue();
   const { tasks } = useTasks(selectedProject);
 
   let projectName = "";
   const [showModal, setShowModal] = useState(null);
+
+  // Reminder times
   const [reminderTimes, setReminderTimes] = useState({});
   const [tempTime, setTempTime] = useState("");
 
@@ -30,6 +40,49 @@ export const Tasks = () => {
   if (collatedTasksExist(selectedProject) && selectedProject) {
     projectName = getCollatedTitle(collatedTasks, selectedProject).name;
   }
+
+  // Fetch saved dates from Firestore when tasks change
+  useEffect(() => {
+    const fetchDates = async () => {
+      const updatedDates = {};
+      for (const task of tasks) {
+        const taskDocRef = doc(db, "tasks", task.id);
+        const taskDocSnap = await getDoc(taskDocRef);
+        if (taskDocSnap.exists()) {
+          const storedDate = taskDocSnap.data().dueDate || "";
+          updatedDates[task.id] = storedDate; // Store as dd/MM/yyyy (backend)
+        }
+      }
+      setSelectedDates(updatedDates);
+    };
+  
+    if (tasks.length > 0) {
+      fetchDates();
+    }
+  }, [tasks]);
+
+  const handleSaveDate = async (taskId, selectedDate) => {
+    if (!selectedDate || !(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
+      alert("Invalid date selected. Please choose a valid date.");
+      return;
+    }
+  
+    // 🔥 Store this format in Firestore → "07/02/2025"
+    const formattedDate = format(selectedDate, "dd/MM/yyyy");
+  
+    setSelectedDates((prev) => ({
+      ...prev,
+      [taskId]: formattedDate, // Keep stored format
+    }));
+  
+    try {
+      const taskDocRef = doc(db, "tasks", taskId);
+      await updateDoc(taskDocRef, { dueDate: formattedDate });
+    } catch (error) {
+      alert("Failed to save date. Please try again.");
+    }
+  };
+  
 
   // Fetch reminder times from Firestore when tasks change
   useEffect(() => {
@@ -60,9 +113,8 @@ export const Tasks = () => {
     try {
       const taskDocRef = doc(db, "tasks", taskId);
       await updateDoc(taskDocRef, { reminderTime: tempTime });
-      console.log(`Saved reminder for task ${taskId}: ${tempTime}`);
     } catch (error) {
-      console.error("Error saving reminder:", error.message);
+      alert("Failed to save reminder. Please try again.");
     }
   };
 
@@ -78,20 +130,33 @@ export const Tasks = () => {
               <span>{task.task}</span>
             </div>
             <div className="task-icons">
+            <div className="task-icons-group">
               <FaBell
-                className="icon icon-bell"
+                className="icon-bell"
                 onClick={() => {
                   setShowModal(task.id);
                   setTempTime(reminderTimes[task.id] || "");
                 }}
               />
-              <FaClock className="icon icon-clock" />
-              <div>
+              <FaClock className="icon-clock" />
+              <FaRegCalendarAlt
+                className="icon-calendar"
+                onClick={() => setShowDatePicker(task.id)}
+              />
+            </div>
+
+            <div className="task-info-group">
               {reminderTimes[task.id] && (
                 <span className="reminder-time">{reminderTimes[task.id]}</span>
               )}
-              </div>
+              {selectedDates[task.id] && (
+                <span className="task-date">
+                  {format(parse(selectedDates[task.id], "dd/MM/yyyy", new Date()), "EEE d MMM")}
+                </span>
+              )}
             </div>
+          </div>
+
             
 
             {showModal === task.id && (
@@ -113,6 +178,43 @@ export const Tasks = () => {
                 </div>
               </div>
             )}
+
+            {showDatePicker === task.id && (
+              <div className="date-picker-modal">
+                <DatePicker
+                  selected={selectedDates[task.id] ? new Date(selectedDates[task.id].split("/").reverse().join("-")) : null}
+                  onChange={(selectedDate) => {
+                    if (selectedDate instanceof Date && !isNaN(selectedDate.getTime())) {
+                      setTempDate(selectedDate);
+                    } else {
+                      alert("Invalid date selected.");
+                    }
+                  }}
+                  dateFormat="dd/MM/yyyy"
+                  inline
+                />
+                <div className="date-picker-modal__buttons">
+                  <button 
+                    className="date-picker-modal__save" 
+                    onClick={() => {
+                      handleSaveDate(task.id, tempDate);
+                      setShowDatePicker(null);
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button 
+                    className="date-picker-modal__cancel" 
+                    onClick={() => setShowDatePicker(null)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+
+
+
           </li>
         ))}
       </ul>

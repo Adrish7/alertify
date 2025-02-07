@@ -10,6 +10,8 @@ html {
 }
 
 body{
+  position: relative;
+  overflow: visible !important;
   margin: 0;
   padding: 0;
   line-height: 1;
@@ -72,7 +74,6 @@ $generic-color: #3fbb66;
   font-size: 13px !important;
   line-height: 17px;
   padding: 6px 12px 7px 12px;
-  position: relative;
   display: inline-block;
   white-space: nowrap;
   border-radius: 3px !important;
@@ -245,8 +246,6 @@ $generic-color: #3fbb66;
     position: fixed;
     left: 0px;
     margin-left: 10px;
-    overflow-x: hidden;
-    overflow-y: auto;
     background-color: $generic-bg;
     border-radius: 20px;
 
@@ -333,7 +332,7 @@ $generic-color: #3fbb66;
   
       &.active, &:hover {
         font-weight: bold;
-        background-color: rgb(43, 194, 86);
+        background-color: #3fbb66;
         border-radius: 15px;
       }
   
@@ -465,50 +464,90 @@ $generic-color: #3fbb66;
   
         &.active, &:hover {
           font-weight: bold;
-          background-color: rgb(43, 194, 86);
+          background-color:#3fbb66
         }
       }
     }
   }
 
-  .project-delete-modal {
-  position: absolute; // Position relative to the parent container
-  top: 27%; // Align near the button
-  left: 50%; // Center horizontally relative to the button
-  transform: translateX(-50%); // Center the modal correctly
-  z-index: 100; // Keep it above other elements
-  background-color: white;
+  /* 🔹 Modal Overlay (Click Outside to Close) */
+/* 🔹 Modal Overlay (Click to Close) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Dark Transparent Background */
+  z-index: 9998; /* Below the modal */
+}
+
+/* 🔹 Project Delete Modal */
+.project-delete-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background-color: #1a1a1a;
+  border: 1px solid #3fbb66;
+  box-shadow: 0px 2px 10px rgba(63, 187, 102, 0.5);
   border-radius: 8px;
-  padding: 15px;
-  width: 220px; // Adjust modal width
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
+  padding: 20px;
+  width: 280px;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  color: white;
+}
 
-  &__inner {
-    display: flex;
-    flex-direction: column; // Stack content vertically
-    align-items: center; // Center-align the content
-    text-align: center;
+/* 🔹 Modal Content */
+.project-delete-modal__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    p {
-      margin: 0 0 15px; // Add spacing below the text
-      font-size: 15px;
-      color: white;
-    }
+  p {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #3fbb66;
+  }
+}
 
-    .buttons {
-      display: flex;
-      gap: 10px; // Space between buttons
-    }
+/* 🔹 Buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
 
-    button {
-      @include btn('80px'); // Styled button
-    }
+.delete-btn {
+  background-color: #cd3c18;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 5px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
 
-    span {
-      @include cancel();
-      font-weight: normal;
-      cursor: pointer;
-    }
+  &:hover {
+    background-color: #752916;
+  }
+}
+
+.cancel-btn {
+  background-color: transparent;
+  color: white;
+  padding: 8px 14px;
+  font-size: 14px;
+  border: 1px solid #3fbb66;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #3fbb66;
+    color: black;
   }
 }
 
@@ -604,7 +643,9 @@ $generic-color: #3fbb66;
       }
       overflow: visible;
       border-radius: 5px;
-      background-color: white;
+      background-color: #1a1a1a; // Dark background
+      border: 1px solid #3fbb66; // Green border
+      box-shadow: 0px 2px 10px rgba(63, 187, 102, 0.4); // Green glow effect
       position: absolute;
       left: 50%;
       top: 50%;
@@ -616,18 +657,24 @@ $generic-color: #3fbb66;
         font-size: 13px;
         margin-bottom: 20px;
         float: left;
-        color: black;
+        color: #3fbb66;
       }
     }
   
 
     .add-task__cancel-x {
       cursor: pointer;
-      color: red;
+      color: #3fbb66;
       float: right;
       font-weight: bold;
       font-size: 20px;
       margin-top: 8px;
+      transition: all 0.2s ease-in-out;
+      
+      &:hover {
+        color: #2fa856;
+        transform: scale(1.1);
+      }
       
     }
   }
@@ -639,8 +686,12 @@ $generic-color: #3fbb66;
   &__project, &__date {
     cursor: pointer;
     float: right;
-    color: gray;
+    color: #3fbb66;
+    transition: color 0.2s ease-in-out;
     margin: 20px 10px;
+    &:hover {
+      color: #2fa856;
+    }
   }
 
   &__project {
@@ -658,7 +709,7 @@ $generic-color: #3fbb66;
     color: black;
     // change the color of the placeholder text
     &::placeholder {
-      color: black;
+      color: #888;
     }
   }
 
@@ -668,11 +719,18 @@ $generic-color: #3fbb66;
 
   &__cancel {
     @include cancel();
+    color: white;
   }
 
   &__submit {
     @include btn('90px');
     border: 1px solid $generic-color;
+    background-color: #3fbb66;
+    color: black;
+
+  &:hover {
+    background-color: #2fa856;
+  }
   }
 }
 
@@ -786,28 +844,23 @@ $generic-color: #3fbb66;
 
 
 .task-icons {
-  display: flex;
-  margin-top: 5px; // Adjust the spacing as needed
-  margin-left: 55px;
-  position: relative;
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    margin-left: 55px;
+    position: relative;
 
-  .icon-bell {
+  .icon-bell, .icon-clock, .icon-calendar {
     @include user-icons();
-  }
-  .icon-clock{
-    @include user-icons();
-  }
-  .icon-calendar{
-    @include user-icons();
-  }
+  } 
+  
 }
+  
+
 
 .tasks__list li {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0px; // Adjust the spacing between tasks as needed
   // align all the items so they are not in the centered horizontally but centred vertically wherever they are
   padding: 15px 0 15px 0;
 
@@ -824,87 +877,214 @@ $generic-color: #3fbb66;
   margin-bottom: 5px; // Adjust the spacing between the task text and icons as needed
 
 }
+
+
+.reminder-time {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3fbb66; /* Green background */
+  color: black; /* Black text for contrast */
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid #2fa856; /* Darker green border */
+  font-size: 12px;
+  font-weight: bold;
+  width: fit-content;
+  min-width: max-content;
+  box-shadow: 0px 2px 5px rgba(63, 187, 102, 0.5);
+  transition: all 0.2s ease-in-out;
+  margin-right: 10px;
+  
+}
+
+.reminder-time:hover {
+  background-color: #2fa856; /* Darker green on hover */
+  box-shadow: 0px 4px 10px rgba(63, 187, 102, 0.7);
+  transform: translateY(-1px);
+}
 .reminder-modal {
   position: absolute;
-  transform: translate(-17%, 53%); /* Position below the icon */
+  transform: translate(-98%, 45%);
+  left: 50%;
   z-index: 10;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
-
+  background-color: #1a1a1a; /* Dark background */
+  border: 1px solid #3fbb66; /* Green border */
+  box-shadow: 0px 2px 5px rgba(63, 187, 102, 0.3); /* Green shadow */
+  border-radius: 8px;
+  padding: 15px;
+  color: white;
+  min-width: 270px;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center everything inside */
 
   &__header {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: black;
+    color: #3fbb66;
+    text-align: center;
+    width: 100%;
   }
 
   .time-picker-container {
     display: flex;
     align-items: center;
-
-    input[type="time"] {
-      padding: 5px;
-      font-size: 14px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      margin-right: 10px;
-      color: black;
-      cursor: pointer;
-      font-family: 'Poppins';
-    }
-
-    button {
-      cursor: pointer;
-      padding: 5px 10px;
-      background-color: $generic-color;
-      color: white;
-      border: none;
-      border-radius: 5px;
-
-      &:hover {
-        background-color: #2f9d55;
-      }
-    }
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 15px;
   }
 
+  input[type="time"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #3fbb66;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    width: 120px;
+    outline: none;
+  }
+
+  /* Keep the original button styling */
   .reminder-modal__actions {
     display: flex;
+    flex-direction: row; /* Ensure buttons are side by side */
     justify-content: space-between;
-    margin-top: 10px;
+    width: 100%;
+    gap: 10px; /* Space between buttons */
+  }
 
-    .cancel-btn {
-      background-color: transparent;
-      color: #555;
-      border: none;
-      font-size: 14px;
-      cursor: pointer;
+  /* Save Button (Existing .button class) */
+  .save-reminder-btn {
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 50%; /* Each button takes up half the width */
+    background-color: #3fbb66;
+    color: black;
+    font-weight: bold;
+    border: none;
 
-      &:hover {
-        text-decoration: underline;
-        
-      }
+    &:hover {
+      background-color: #2fa856;
+    }
+  }
+
+  /* Cancel Button (Existing .cancel-btn class) */
+  .cancel-reminder-btn {
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 50%;
+    background-color: #333;
+    color: white;
+    border: none;
+
+    &:hover {
+      background-color: #555;
     }
   }
 }
+
 .reminder-modal__arrow{
   position: absolute;
-  top: -12px; 
+  top: -10px;
   left: 50%;
   transform: translateX(-50%);
-  color: white; 
-  font-size: 20px; 
+  width: 0;
+  height: 0;
+  // make green color
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #3fbb66;
 }
 
-.reminder-time{
-  background-color: $generic-bg;
-  padding: 2px 5px 2px 5px ;
+/* 📌 Time Picker Container */
+.time-picker-container {
+  display: flex;
+  align-items: center;
+}
+
+/* 📌 Custom Time Picker */
+.custom-time-picker {
+  background-color: black !important;
+  border: 1px solid #3fbb66 !important;
+  color: #3fbb66 !important;
+  padding: 6px 12px;
   border-radius: 5px;
-  border: 1px solid $generic-color;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  width: 100px;
+}
+
+/* 📌 Time Picker Modal */
+/* Style the Time Picker Input */
+.custom-time-picker {
+  background-color: black !important;
+  border: 1px solid #3fbb66 !important;
+  color: #3fbb66 !important;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  width: 100px;
+}
+
+/* Remove default focus outline */
+.custom-time-picker:focus {
+  outline: none;
+  border-color: #2fa856;
+}
+
+/* Remove the unwanted clock UI */
+.react-time-picker__wrapper {
+  border: none !important;
+  background-color: black !important;
+  padding: 6px;
+  border-radius: 8px;
+  color: white;
+}
+
+/* Hide the default clock icon */
+.react-time-picker__clock {
+  display: none !important;
+}
+
+/* Remove the extra white modal */
+.react-time-picker__clock {
+  display: none !important;
+}
+
+
+
+
+
+.task-date-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid #3fbb66;
   font-size: 12px;
+  width: fit-content;
+  min-width: max-content;
+  box-shadow: 0px 2px 5px rgba(63, 187, 102, 0.3);
+  transition: all 0.2s ease-in-out;
+}
+
+.task-date-box:hover {
+  box-shadow: 0px 4px 10px rgba(63, 187, 102, 0.5);
+  transform: translateY(-1px);
 }
 
 // date modal
@@ -912,34 +1092,20 @@ $generic-color: #3fbb66;
   position: absolute;
   transform: translate(-9%, 18%); /* Position below the icon */
   z-index: 10;
-  background-color: black;
+  background-color: #1a1a1a;
+  border: 1px solid #3fbb66;
   border-radius: 5px;
   padding: 10px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
-  
+  // add that glow to the box shadow
+  box-shadow: 0px 2px 5px rgba(63, 187, 102, 0.3);
 
 
 }
-.task-date{
-  background-color: black;
-  padding: 2px 8px; /* Minimal padding */
-  border-radius: 6px; /* Slightly rounder corners */
-  border: 1px solid #3fbb66; /* Green border */
-  font-size: 12px;
-  display: inline-block; /* Makes it fit the text width */
-  width: fit-content;  /* ✅ Ensures width only fits text */
-  min-width: max-content;
-  box-shadow: 0px 2px 5px rgba(63, 187, 102, 0.3); /* Soft green glow */
-  transition: all 0.2s ease-in-out;
-}
-.task-date:hover {
-  box-shadow: 0px 4px 10px rgba(63, 187, 102, 0.5); /* Stronger glow on hover */
-  transform: translateY(-1px);
-}
+
 // styling the calendar that pops up
 .react-datepicker {
   background-color: #1a1a1a; // Dark black background
-  border: 1px solid #3fbb66;
+  border: 3px solid black;
   border-radius: 8px;
   color: white;
   padding: 10px;

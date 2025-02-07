@@ -14,6 +14,9 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, parse } from "date-fns";
+import TimePicker from "react-time-picker";
+import "react-time-picker/dist/TimePicker.css";
+import "react-clock/dist/Clock.css";
 
 export const Tasks = () => {
   // Dates
@@ -67,7 +70,6 @@ export const Tasks = () => {
       return;
     }
   
-    // 🔥 Store this format in Firestore → "07/02/2025"
     const formattedDate = format(selectedDate, "dd/MM/yyyy");
   
     setSelectedDates((prev) => ({
@@ -92,7 +94,7 @@ export const Tasks = () => {
         const taskDocRef = doc(db, "tasks", task.id);
         const taskDocSnap = await getDoc(taskDocRef);
         if (taskDocSnap.exists()) {
-          updatedReminders[task.id] = taskDocSnap.data().reminderTime || ""; // Get reminder time or default to empty
+          updatedReminders[task.id] = taskDocSnap.data().reminderTime || "";
         }
       }
       setReminderTimes(updatedReminders);
@@ -101,8 +103,9 @@ export const Tasks = () => {
     if (tasks.length > 0) {
       fetchReminders();
     }
-  }, [tasks]); // Re-fetch when tasks change
+  }, [tasks]);
 
+  // Save Reminder Time
   const handleSaveReminder = async (taskId) => {
     setReminderTimes((prev) => ({
       ...prev,
@@ -121,7 +124,6 @@ export const Tasks = () => {
   return (
     <div className="tasks" data-testid="tasks">
       <h2 data-testid="project-name">{projectName}</h2>
-
       <ul className="tasks__list">
         {tasks.map((task) => (
           <li key={task.id} className="task-item">
@@ -130,54 +132,60 @@ export const Tasks = () => {
               <span>{task.task}</span>
             </div>
             <div className="task-icons">
-            <div className="task-icons-group">
-              <FaBell
-                className="icon-bell"
-                onClick={() => {
-                  setShowModal(task.id);
-                  setTempTime(reminderTimes[task.id] || "");
-                }}
-              />
-              <FaClock className="icon-clock" />
-              <FaRegCalendarAlt
-                className="icon-calendar"
-                onClick={() => setShowDatePicker(task.id)}
-              />
+                <FaBell
+                  className="icon-bell"
+                  onClick={() => {
+                    setShowModal(task.id);
+                    setTempTime(reminderTimes[task.id] || "");
+                  }}
+                />
+                <FaClock className="icon-clock" />
+                <FaRegCalendarAlt
+                  className="icon-calendar"
+                  onClick={() => setShowDatePicker(task.id)}
+                />
+                {reminderTimes[task.id] && (
+                  <span className="reminder-time">{reminderTimes[task.id]}</span>
+                )}
+
+                {selectedDates[task.id] && (
+                  <span className="task-date-box">
+                    {format(parse(selectedDates[task.id], "dd/MM/yyyy", new Date()), "EEE d MMM")}
+                  </span>
+                )}
             </div>
 
-            <div className="task-info-group">
-              {reminderTimes[task.id] && (
-                <span className="reminder-time">{reminderTimes[task.id]}</span>
-              )}
-              {selectedDates[task.id] && (
-                <span className="task-date">
-                  {format(parse(selectedDates[task.id], "dd/MM/yyyy", new Date()), "EEE d MMM")}
-                </span>
-              )}
-            </div>
-          </div>
+
 
             
 
             {showModal === task.id && (
-              <div className="reminder-modal">
-               <BsCaretUpFill className="reminder-modal__arrow" />
-                <div className="reminder-modal__header">Set Reminder</div>
-                <div className="time-picker-container">
-                  <input
-                    type="time"
-                    value={tempTime}
-                    onChange={(e) => setTempTime(e.target.value)}
-                  />
-                  <button onClick={() => handleSaveReminder(task.id)}>Save</button>
-                </div>
-                <div className="reminder-modal__actions">
-                  <button className="cancel-btn" onClick={() => setShowModal(null)}>
-                    Cancel
-                  </button>
-                </div>
+            <div className="reminder-modal">
+              <BsCaretUpFill className="reminder-modal__arrow" />
+              <div className="reminder-modal__header">Set Reminder</div>
+
+              <div className="time-picker-container">
+                <TimePicker
+                  onChange={setTempTime}
+                  value={tempTime}
+                  format="HH:mm" // 24-hour format
+                  disableClock={true}
+                  clearIcon={null}
+                  className="custom-time-picker"
+                />
+                
               </div>
-            )}
+
+              <div className="reminder-modal__actions">
+              <button className="save-reminder-btn" onClick={() => handleSaveReminder(task.id)}>Save</button>
+                <button className="cancel-reminder-btn" onClick={() => setShowModal(null)}>
+                  Cancel
+                </button>
+                
+              </div>
+            </div>
+          )}
+  
 
             {showDatePicker === task.id && (
               <div className="date-picker-modal">

@@ -1,28 +1,39 @@
-import React, {useState} from 'react';
-import {Header} from './components/layout/Header';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/pages/Home';
+import Login from './components/pages/Login';
+import Register from './components/pages/Register';
 import Content from './components/layout/Content';
 import { ProjectsProvider, SelectedProjectProvider } from './context';
 import { Settings } from './components/Settings';
 
-
 function App() {
-
   const [darkMode, setDarkMode] = useState(false);
-// put header above content
+
   return (
-    <SelectedProjectProvider>
-      <ProjectsProvider>
-        <main
-        data-testid="application"
-        className={darkMode ? 'darkmode' : undefined}
-        >
-        <Settings />
-        <Content />
+    <Router>
+      <SelectedProjectProvider>
+        <ProjectsProvider>
+          <Routes>
+            {/* Public Routes (standalone pages) */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-        </main>
-
-      </ProjectsProvider> 
-    </SelectedProjectProvider>
+            {/* Your existing app (unchanged, loads at /app/*) */}
+            <Route path="/app/*" element={
+              <main 
+                data-testid="application" 
+                className={darkMode ? 'darkmode' : undefined}
+              >
+                <Settings />
+                <Content />
+              </main>
+            }/>
+          </Routes>
+        </ProjectsProvider>
+      </SelectedProjectProvider>
+    </Router>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../lib/firebase/firebase";
 import { FaBell } from "react-icons/fa";
 import { Checkbox } from "./Checkbox";
 import { useTasks } from "../hooks";
@@ -22,7 +22,7 @@ export const Tasks = () => {
   // Dates
   const [showDatePicker, setShowDatePicker] = useState(null);
   const [selectedDates, setSelectedDates] = useState({});
-  const [tempDate, setTempDate] = useState(null); 
+  const [tempDate, setTempDate] = useState(null);
 
   // Tasks and Projects
   const { selectedProject } = useSelectedProjectValue();
@@ -36,7 +36,12 @@ export const Tasks = () => {
   const [reminderTimes, setReminderTimes] = useState({});
   const [tempTime, setTempTime] = useState("");
 
-  if (projects.length > 0 && projects && selectedProject && !collatedTasksExist(selectedProject)) {
+  if (
+    projects.length > 0 &&
+    projects &&
+    selectedProject &&
+    !collatedTasksExist(selectedProject)
+  ) {
     projectName = getTitle(projects, selectedProject).name;
   }
 
@@ -58,25 +63,29 @@ export const Tasks = () => {
       }
       setSelectedDates(updatedDates);
     };
-  
+
     if (tasks.length > 0) {
       fetchDates();
     }
   }, [tasks]);
 
   const handleSaveDate = async (taskId, selectedDate) => {
-    if (!selectedDate || !(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
+    if (
+      !selectedDate ||
+      !(selectedDate instanceof Date) ||
+      isNaN(selectedDate.getTime())
+    ) {
       alert("Invalid date selected. Please choose a valid date.");
       return;
     }
-  
+
     const formattedDate = format(selectedDate, "dd/MM/yyyy");
-  
+
     setSelectedDates((prev) => ({
       ...prev,
       [taskId]: formattedDate, // Keep stored format
     }));
-  
+
     try {
       const taskDocRef = doc(db, "tasks", taskId);
       await updateDoc(taskDocRef, { dueDate: formattedDate });
@@ -84,7 +93,6 @@ export const Tasks = () => {
       alert("Failed to save date. Please try again.");
     }
   };
-  
 
   // Fetch reminder times from Firestore when tasks change
   useEffect(() => {
@@ -132,67 +140,80 @@ export const Tasks = () => {
               <span>{task.task}</span>
             </div>
             <div className="task-icons">
-                <FaBell
-                  className="icon-bell"
-                  onClick={() => {
-                    setShowModal(task.id);
-                    setTempTime(reminderTimes[task.id] || "");
-                  }}
-                />
-                <FaClock className="icon-clock" />
-                <FaRegCalendarAlt
-                  className="icon-calendar"
-                  onClick={() => setShowDatePicker(task.id)}
-                />
-                {reminderTimes[task.id] && (
-                  <span className="reminder-time">{reminderTimes[task.id]}</span>
-                )}
+              <FaBell
+                className="icon-bell"
+                onClick={() => {
+                  setShowModal(task.id);
+                  setTempTime(reminderTimes[task.id] || "");
+                }}
+              />
+              <FaClock className="icon-clock" />
+              <FaRegCalendarAlt
+                className="icon-calendar"
+                onClick={() => setShowDatePicker(task.id)}
+              />
+              {reminderTimes[task.id] && (
+                <span className="reminder-time">{reminderTimes[task.id]}</span>
+              )}
 
-                {selectedDates[task.id] && (
-                  <span className="task-date-box">
-                    {format(parse(selectedDates[task.id], "dd/MM/yyyy", new Date()), "EEE d MMM")}
-                  </span>
-                )}
+              {selectedDates[task.id] && (
+                <span className="task-date-box">
+                  {format(
+                    parse(selectedDates[task.id], "dd/MM/yyyy", new Date()),
+                    "EEE d MMM"
+                  )}
+                </span>
+              )}
             </div>
-
-
-
-            
 
             {showModal === task.id && (
-            <div className="reminder-modal">
-              <BsCaretUpFill className="reminder-modal__arrow" />
-              <div className="reminder-modal__header">Set Reminder</div>
+              <div className="reminder-modal">
+                <BsCaretUpFill className="reminder-modal__arrow" />
+                <div className="reminder-modal__header">Set Reminder</div>
 
-              <div className="time-picker-container">
-                <TimePicker
-                  onChange={setTempTime}
-                  value={tempTime}
-                  format="HH:mm" // 24-hour format
-                  disableClock={true}
-                  clearIcon={null}
-                  className="custom-time-picker"
-                />
-                
-              </div>
+                <div className="time-picker-container">
+                  <TimePicker
+                    onChange={setTempTime}
+                    value={tempTime}
+                    format="HH:mm" // 24-hour format
+                    disableClock={true}
+                    clearIcon={null}
+                    className="custom-time-picker"
+                  />
+                </div>
 
-              <div className="reminder-modal__actions">
-              <button className="save-reminder-btn" onClick={() => handleSaveReminder(task.id)}>Save</button>
-                <button className="cancel-reminder-btn" onClick={() => setShowModal(null)}>
-                  Cancel
-                </button>
-                
+                <div className="reminder-modal__actions">
+                  <button
+                    className="save-reminder-btn"
+                    onClick={() => handleSaveReminder(task.id)}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="cancel-reminder-btn"
+                    onClick={() => setShowModal(null)}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
-  
+            )}
 
             {showDatePicker === task.id && (
               <div className="date-picker-modal">
                 <DatePicker
-                  selected={selectedDates[task.id] ? new Date(selectedDates[task.id].split("/").reverse().join("-")) : null}
+                  selected={
+                    selectedDates[task.id]
+                      ? new Date(
+                          selectedDates[task.id].split("/").reverse().join("-")
+                        )
+                      : null
+                  }
                   onChange={(selectedDate) => {
-                    if (selectedDate instanceof Date && !isNaN(selectedDate.getTime())) {
+                    if (
+                      selectedDate instanceof Date &&
+                      !isNaN(selectedDate.getTime())
+                    ) {
                       setTempDate(selectedDate);
                     } else {
                       alert("Invalid date selected.");
@@ -202,8 +223,8 @@ export const Tasks = () => {
                   inline
                 />
                 <div className="date-picker-modal__buttons">
-                  <button 
-                    className="date-picker-modal__save" 
+                  <button
+                    className="date-picker-modal__save"
                     onClick={() => {
                       handleSaveDate(task.id, tempDate);
                       setShowDatePicker(null);
@@ -211,8 +232,8 @@ export const Tasks = () => {
                   >
                     Save
                   </button>
-                  <button 
-                    className="date-picker-modal__cancel" 
+                  <button
+                    className="date-picker-modal__cancel"
                     onClick={() => setShowDatePicker(null)}
                   >
                     Cancel
@@ -220,16 +241,10 @@ export const Tasks = () => {
                 </div>
               </div>
             )}
-
-
-
           </li>
         ))}
       </ul>
       <AddTask />
-
-      
-
     </div>
   );
 };

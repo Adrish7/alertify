@@ -4,6 +4,7 @@ import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
 import Content from './components/layout/Content';
+import ForgotPassword from './components/pages/ForgotPassword';
 import { ProjectsProvider, SelectedProjectProvider } from './context';
 import { Settings } from './components/Settings';
 
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
             {/* Your existing app (unchanged, loads at /app/*) */}
             <Route path="/app/*" element={

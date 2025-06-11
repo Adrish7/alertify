@@ -1,23 +1,33 @@
-import { useState, useEffect } from 'react';
-import moment from 'moment';
-import { collection, query, where, orderBy, onSnapshot, getDocs } from 'firebase/firestore';
-import { db } from '../firebase'; // Import your Firestore instance as 'db'
-import { collatedTasksExist } from '../helpers';
+import { useState, useEffect } from "react";
+import moment from "moment";
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+  getDocs,
+} from "firebase/firestore";
+import { db } from "../lib/firebase/firebase"; // Import your Firestore instance as 'db'
+import { collatedTasksExist } from "../helpers";
 
 export const useTasks = (selectedProject) => {
   const [tasks, setTasks] = useState([]);
   const [archivedTasks, setArchivedTasks] = useState([]);
 
   useEffect(() => {
-    const tasksCollection = collection(db, 'tasks');
-    let tasksQuery = query(tasksCollection, where('userId', '==', 'jA9mK3Hx'));
+    const tasksCollection = collection(db, "tasks");
+    let tasksQuery = query(tasksCollection, where("userId", "==", "jA9mK3Hx"));
 
     if (selectedProject && !collatedTasksExist(selectedProject)) {
-      tasksQuery = query(tasksQuery, where('projectId', '==', selectedProject));
-    } else if (selectedProject === 'TODAY') {
-      tasksQuery = query(tasksQuery, where('date', '==', moment().format('DD/MM/YYYY')));
-    } else if (selectedProject === 'INBOX' || selectedProject === 0) {
-      tasksQuery = query(tasksQuery, where('date', '==', ''));
+      tasksQuery = query(tasksQuery, where("projectId", "==", selectedProject));
+    } else if (selectedProject === "TODAY") {
+      tasksQuery = query(
+        tasksQuery,
+        where("date", "==", moment().format("DD/MM/YYYY"))
+      );
+    } else if (selectedProject === "INBOX" || selectedProject === 0) {
+      tasksQuery = query(tasksQuery, where("date", "==", ""));
     }
 
     const unsubscribe = onSnapshot(tasksQuery, (snapshot) => {
@@ -27,10 +37,10 @@ export const useTasks = (selectedProject) => {
       }));
 
       setTasks(
-        selectedProject === 'NEXT_7'
+        selectedProject === "NEXT_7"
           ? newTasks.filter(
               (task) =>
-                moment(task.date, 'DD-MM-YYYY').diff(moment(), 'days') <= 7 &&
+                moment(task.date, "DD-MM-YYYY").diff(moment(), "days") <= 7 &&
                 task.archived !== true
             )
           : newTasks.filter((task) => task.archived !== true)
@@ -49,11 +59,11 @@ export const useProjects = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    const projectsCollection = collection(db, 'projects');
+    const projectsCollection = collection(db, "projects");
     const projectsQuery = query(
       projectsCollection,
-      where('userId', '==', 'jA9mK3Hx'),
-      orderBy('projectId')
+      where("userId", "==", "jA9mK3Hx"),
+      orderBy("projectId")
     );
 
     getDocs(projectsQuery).then((snapshot) => {
@@ -62,7 +72,7 @@ export const useProjects = () => {
         docId: project.id,
       }));
 
-      // prevent an infinite loop of re-rendering 
+      // prevent an infinite loop of re-rendering
       if (JSON.stringify(allProjects) !== JSON.stringify(projects)) {
         setProjects(allProjects);
       }
@@ -71,4 +81,3 @@ export const useProjects = () => {
 
   return { projects, setProjects };
 };
-

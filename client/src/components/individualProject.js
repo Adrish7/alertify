@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { FaTrashAlt } from "react-icons/fa";
 import { useProjectsValue, useSelectedProjectValue } from "../context";
-import { db } from "../firebase";
+import { db } from "../lib/firebase/firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 
 export const IndividualProject = ({ project }) => {
@@ -50,17 +50,27 @@ export const IndividualProject = ({ project }) => {
         ReactDOM.createPortal(
           <>
             {/* Background Overlay (Click to Close) */}
-            <div className="modal-overlay" onClick={() => setShowConfirm(false)} />
+            <div
+              className="modal-overlay"
+              onClick={() => setShowConfirm(false)}
+            />
 
             {/* Delete Confirmation Modal */}
-            <div className="project-delete-modal" role="dialog" aria-modal="true">
+            <div
+              className="project-delete-modal"
+              role="dialog"
+              aria-modal="true"
+            >
               <div className="project-delete-modal__inner">
                 <p>Are you sure you want to delete this project?</p>
                 <div className="modal-buttons">
                   <button className="delete-btn" onClick={deleteProject}>
                     Delete
                   </button>
-                  <button className="cancel-btn" onClick={() => setShowConfirm(false)}>
+                  <button
+                    className="cancel-btn"
+                    onClick={() => setShowConfirm(false)}
+                  >
                     Cancel
                   </button>
                 </div>

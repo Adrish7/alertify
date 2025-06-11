@@ -1,6 +1,6 @@
 import React from "react";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase"; // Import Firestore instance
+import { db } from "../lib/firebase/firebase"; // Import Firestore instance
 
 export const Checkbox = ({ id, taskDesc }) => {
   const archiveTask = async () => {
@@ -25,5 +25,3 @@ export const Checkbox = ({ id, taskDesc }) => {
     </div>
   );
 };
-
-

@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
-
+(You will have to go inside the /client directory to run the following command.
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -13,6 +13,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+This page will redirect to the root route of /app that all clients will be able to see.
 
 ### `npm test`
 

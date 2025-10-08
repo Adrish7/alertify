@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
@@ -16,8 +16,11 @@ function App() {
       <SelectedProjectProvider>
         <ProjectsProvider>
           <Routes>
+            {/* Redirect root to /app */}
+            <Route path="/" element={<Navigate to="/app" replace />} />
+            
             {/* Public Routes (standalone pages) */}
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
